@@ -25,6 +25,16 @@ namespace BL.Service
             this.mapper = mapper;
         }
 
+        public ServiceTicket(IUnitOfWork uow)
+        {
+            UOW = uow;
+        }
+
+        public ServiceTicket()
+        {
+            
+        }
+
         private IEnumerable<Ticket> GetTicketsFromDS()
         {
             return UOW.Set<Ticket>().Get();
@@ -44,13 +54,13 @@ namespace BL.Service
             return mapper.Map<IEnumerable<TicketDTO>>(res);
         }
 
-        internal List<Ticket> Tickets(IEnumerable<Ticket> tickets, IEnumerable<Flight> flights)
+        public List<Ticket> Tickets(IEnumerable<Ticket> tickets, IEnumerable<Flight> flights)
         {
             var res = tickets
                 .Join(flights,
                     t => t.FlightForeignKey,
                     f => f.Id,
-                    (t, f) => new Ticket() {Id = t.Id, Flight = f, Price = t.Price}).ToList();
+                    (t, f) => new Ticket() { Id = t.Id, Flight = f, Price = t.Price }).ToList();
             return res;
         }
 
