@@ -11,9 +11,9 @@ namespace BL.Service
         TicketDTO GetTicket(int? id);
         IEnumerable<TicketDTO> GetTickets();
 
-        void PostTicket(int flightId, decimal price);
+        void PostTicket(TicketPL ticket);
         void DeleteTicket(int id);
-        void PutTicket(int id, int flightId, decimal price);
+        void PutTicket(TicketPL ticket);
         
         
         //decimal GetPrice(int? id);

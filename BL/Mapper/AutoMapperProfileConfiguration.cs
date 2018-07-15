@@ -29,9 +29,12 @@ namespace BL.Mapper
             CreateMap<PilotDTO, Pilot>();
             CreateMap<Pilot, PilotDTO>();
             CreateMap<TicketDTO, Ticket>();
-            CreateMap<Ticket, TicketDTO>();
+            CreateMap<Ticket, TicketDTO>().ForMember(x=>x.FlightNumber, x=>x.MapFrom(y=>y.Flight.Number));
             CreateMap<DepartureDTO, Departure>();
             CreateMap<Departure, DepartureDTO>();
+
+            CreateMap<TicketPL, Ticket>();//.ForMember(t=>t.Id,opt => opt.Ignore()
+            CreateMap<Ticket, TicketPL>();
         }
     }
 }

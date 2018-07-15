@@ -38,18 +38,17 @@ namespace PL.Controllers
 
         // POST: api/Ticket
         [HttpPost]
-        public void Post([FromBody] JObject json)
+        public void Post([FromBody] TicketPL ticket)
         {
-            var request = JsonConvert.DeserializeObject<Ticket>(json.ToString());
-            _serviceTicket.PostTicket(request.FlightId, request.Price);
+            _serviceTicket.PostTicket(ticket);
         }
 
         // PUT: api/Ticket/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] JObject json)
+        public void Put(int id, [FromBody] TicketPL ticket)
         {
-            var request = JsonConvert.DeserializeObject<Ticket>(json.ToString());
-            _serviceTicket.PutTicket(id,request.FlightId, request.Price);
+            ticket.Id = id;
+            _serviceTicket.PutTicket(ticket);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -63,6 +62,7 @@ namespace PL.Controllers
         {
             public int FlightId { get; set; }
             public decimal Price { get; set; }
+            public int Id { get; set; }
         }
     }
 }

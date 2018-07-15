@@ -32,7 +32,7 @@ namespace BL.Service
 
         public ServiceTicket()
         {
-            
+
         }
 
         private IEnumerable<Ticket> GetTicketsFromDS()
@@ -68,40 +68,24 @@ namespace BL.Service
         {
             if (id == null)
                 throw new ValidationException($"There is no ticket with id {id}", "");
-
-            var ticket = GetTicketsFromDS().FirstOrDefault(x => x.Id == id.Value);
+            
+            var ticket = GetTickets().FirstOrDefault(x => x.Id == id.Value);
 
             if (ticket == null)
                 throw new ValidationException("Ticket not found", "");
-
-            var res = new Ticket { Id = ticket.Id, Flight = ticket.Flight, Price = ticket.Price };
-
-            return mapper.Map<TicketDTO>(res);
+            
+            return ticket;
         }
 
-        public void PostTicket(int flightId, decimal price)
+        public void PostTicket(TicketPL ticket)
         {
-            UOW.Set<Ticket>().Create(
-            new Ticket()
-            {
-                Price = price,
-                FlightForeignKey = flightId
-            });
-
+            UOW.Set<Ticket>().Create(mapper.Map<Ticket>(ticket));
             UOW.SaveChages();
         }
 
-        public void PutTicket(int id, int flightId, decimal price)
+        public void PutTicket(TicketPL ticket)
         {
-            UOW
-                .Set<Ticket>()
-                .Update(new Ticket()
-                {
-                    Id = id,
-                    Price = price,
-                    FlightForeignKey = flightId
-                });
-
+            UOW.Set<Ticket>().Update(mapper.Map<Ticket>(ticket));
             UOW.SaveChages();
         }
 
