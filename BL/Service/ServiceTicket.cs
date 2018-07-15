@@ -77,6 +77,11 @@ namespace BL.Service
             return ticket;
         }
 
+        public Ticket MapTicket(TicketPL ticket, IMapper mapper)
+        {
+            return mapper.Map<Ticket>(ticket);
+        }
+
         public void PostTicket(TicketPL ticket)
         {
             if ( ticket.FlightForeignKey == 0 || ticket.Price == 0)
@@ -88,7 +93,7 @@ namespace BL.Service
                 throw new ValidationException($"There is no Flight with id {ticket.FlightForeignKey}", "");
             }
             
-            UOW.Set<Ticket>().Create(mapper.Map<Ticket>(ticket));
+            UOW.Set<Ticket>().Create(MapTicket(ticket, mapper));
             UOW.SaveChages();
         }
 
@@ -103,7 +108,7 @@ namespace BL.Service
             {
                 throw new ValidationException($"There is no ticket with id {ticket.Id}", "");
             }
-            UOW.Set<Ticket>().Update(mapper.Map<Ticket>(ticket));
+            UOW.Set<Ticket>().Update(MapTicket(ticket, mapper));
             UOW.SaveChages();
         }
 
