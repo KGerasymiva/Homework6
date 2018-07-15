@@ -16,18 +16,16 @@ namespace AirporstTestProject
         private Mock<IUnitOfWork> uowMock;
         private Mock<AirportContext> contextMock;
         private ServiceTicket serviceTicket;
+        private IEnumerable<Ticket> tickets;
+        private IEnumerable<Flight> flights;
 
         public TicketServiceUnitTest()
         {
             uowMock = new Mock<IUnitOfWork>();
             contextMock = new Mock<AirportContext>();
             serviceTicket = new ServiceTicket();
-        }
-        [Fact]
-        public void Test1()
-        {
-            // Arrange
-            var tickets = new List<Ticket>
+
+            tickets = new List<Ticket>
             {
                 new Ticket()
                 {
@@ -49,7 +47,7 @@ namespace AirporstTestProject
                 }
             };
 
-            var flights = new List<Flight>
+            flights = new List<Flight>
             {
                 new Flight()
                 {
@@ -84,11 +82,35 @@ namespace AirporstTestProject
 
                 }
             };
+        }
+        [Fact]
+        public void Test1()
+        {
+            // Arrange
+            var ticketsList = tickets as List<Ticket>;
 
             // Act
-            var result = serviceTicket.Tickets(tickets,flights);
+            serviceTicket.PostTicket(new TicketPL()
+            {
+                Price = ticketsList[0].Price,
+                FlightForeignKey = ticketsList[0].FlightForeignKey
+            });
 
-           
+
+            // Assert
+            Assert.Equal(3, result.Count());
+        }
+
+        [Fact]
+        public void Test2()
+        {
+            // Arrange
+
+
+            // Act
+            var result = serviceTicket.Tickets(tickets, flights);
+
+
             // Assert
             Assert.Equal(3, result.Count());
         }
