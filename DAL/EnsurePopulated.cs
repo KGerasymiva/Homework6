@@ -19,7 +19,7 @@ namespace DAL
             context.Tickets.AddRange(
                 new Ticket()
                 {
-                    Price = 100M,
+                    Price = 111M,
                     FlightForeignKey = 1,
                 },
                 new Ticket()

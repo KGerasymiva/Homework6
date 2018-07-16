@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using PL;
+using Xunit;
 
 namespace IntegrationTestProject
 {
@@ -11,8 +13,14 @@ namespace IntegrationTestProject
         public TestClass()
         {
             _server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseStartup<TestStartup>()
-                .UseEnvironment("Development"));
+                .UseStartup<Startup>().UseDefaultServiceProvider(options =>
+                    options.ValidateScopes = false));
+        }
+
+        [Fact]
+        public void Test1()
+        {
+
         }
     }
 }

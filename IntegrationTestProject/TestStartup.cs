@@ -13,13 +13,10 @@ namespace IntegrationTestProject
 {
     public class TestStartup: Startup
     {
-        private readonly TestServer _server;
         
         public TestStartup(Microsoft.Extensions.Configuration.IConfiguration configuration) : base(configuration)
         {
-            _server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>()
-                .UseEnvironment("Development"));
+            
         }
 
         public override void ConfigureDatabase(IServiceCollection services)
