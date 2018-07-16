@@ -34,13 +34,12 @@ namespace BL.Service
         {
 
         }
-
-        private IEnumerable<Ticket> GetTicketsFromDS()
+        public virtual IEnumerable<Ticket> GetTicketsFromDS()
         {
             return UOW.Set<Ticket>().Get();
         }
 
-        private IEnumerable<Flight> GetFlightsFromDS()
+        public virtual IEnumerable<Flight> GetFlightsFromDS()
         {
             return UOW.Set<Flight>().Get();
         }
@@ -68,12 +67,12 @@ namespace BL.Service
         {
             if (id == null)
                 throw new ValidationException($"There is no ticket with id {id}", "");
-            
+
             var ticket = GetTickets().FirstOrDefault(x => x.Id == id.Value);
 
             if (ticket == null)
                 throw new ValidationException("Ticket not found", "");
-            
+
             return ticket;
         }
 
@@ -84,27 +83,30 @@ namespace BL.Service
 
         public void PostTicket(TicketPL ticket)
         {
-            if ( ticket.FlightForeignKey == 0 || ticket.Price == 0)
+            if (ticket == null || ticket.FlightForeignKey == 0 || ticket.Price == 0 || ticket.Id != 0)
             {
                 throw new ValidationException($"Incorrect input values", "");
             }
-            if (GetFlightsFromDS().FirstOrDefault(f => f.Id == ticket.FlightForeignKey) == null)
+
+            var fl = GetFlightsFromDS();
+
+            if (fl.FirstOrDefault(f => f.Id == ticket.FlightForeignKey) == null)
             {
                 throw new ValidationException($"There is no Flight with id {ticket.FlightForeignKey}", "");
             }
-            
+
             UOW.Set<Ticket>().Create(MapTicket(ticket, mapper));
             UOW.SaveChages();
         }
 
         public void PutTicket(TicketPL ticket)
         {
-            if (ticket.Id == 0 || ticket.FlightForeignKey == 0 || ticket.Price == 0)
+            if (ticket == null || ticket.Id == 0 || ticket.FlightForeignKey == 0 || ticket.Price == 0)
             {
                 throw new ValidationException($"Incorrect input values", "");
             }
 
-            if (GetTicketsFromDS().FirstOrDefault(t=>t.Id==ticket.Id) == null)
+            if (GetTicketsFromDS().FirstOrDefault(t => t.Id == ticket.Id) == null)
             {
                 throw new ValidationException($"There is no ticket with id {ticket.Id}", "");
             }

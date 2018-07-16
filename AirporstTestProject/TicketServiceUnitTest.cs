@@ -10,7 +10,6 @@ using DAL.Models;
 using DAL.UnitOfWork;
 using DTO;
 using Moq;
-using NUnit.Framework;
 using Xunit;
 using Assert = Xunit.Assert;
 
@@ -24,13 +23,15 @@ namespace AirporstTestProject
         private IEnumerable<Ticket> tickets;
         private IEnumerable<Flight> flights;
         private IMapper mapper;
-        
+        private Mock<ServiceTicket> serviceMock;
+
 
         public TicketServiceUnitTest()
         {
             uowMock = new Mock<IUnitOfWork>();
             contextMock = new Mock<AirportContext>();
             serviceTicket = new ServiceTicket();
+            serviceMock = new Mock<ServiceTicket>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -97,23 +98,7 @@ namespace AirporstTestProject
                 }
             };
         }
-        //[Fact]
-        //public void Test1()
-        //{
-        //    // Arrange
-        //    var ticketsList = tickets as List<Ticket>;
 
-        //    // Act
-        //    serviceTicket.PostTicket(new TicketPL()
-        //    {
-        //        Price = ticketsList[0].Price,
-        //        FlightForeignKey = ticketsList[0].FlightForeignKey
-        //    });
-
-
-        //    // Assert
-        //    Assert.Equal(3, result.Count());
-        //}
 
         [Fact]
         public void Test2()
@@ -144,20 +129,82 @@ namespace AirporstTestProject
             Assert.Equal(ticketPL.FlightForeignKey, result.FlightForeignKey);
         }
 
-        [Fact]
-        public void Test4()
+        [Theory]
+        [InlineData(0, 800, 0)]
+        [InlineData(5, 400, 0)]
+        [InlineData(2, 0, 0)]
+        [InlineData(2, 500, 10)]
+        public void Test4(int fk, decimal pr, int id)
         {
-            //arrange
-            var service = new ServiceTicket();
-            //act
-            Action act = () => service.PostTicket(new TicketPL()
-            {
+            //Arrange
 
-            });
-            //assert
+            var ticket = new TicketPL { FlightForeignKey = fk, Price = pr };
+            if (id != 0)
+            {
+                ticket.Id = id;
+            }
+
+            serviceMock.Setup(serv => serv.GetFlightsFromDS()).Returns(flights);
+
+            //Act
+            Action act = () => serviceMock.Object.PostTicket(ticket);
+
+            //Assert
             Assert.Throws<BL.Infrastructure.ValidationException>(act);
         }
 
+        [Fact]
+        public void Test5() //null
+        {
+            //Arrange
+
+            TicketPL ticket = null;
+
+            //Act
+            Action act = () => serviceMock.Object.PostTicket(ticket);
+
+            //Assert
+            Assert.Throws<BL.Infrastructure.ValidationException>(act);
+        }
+
+        [Fact]
+        public void Test6() //null
+        {
+            //Arrange
+
+            TicketPL ticket = null;
+
+            //Act
+            Action act = () => serviceMock.Object.PutTicket(ticket);
+
+            //Assert
+            Assert.Throws<BL.Infrastructure.ValidationException>(act);
+        }
+
+
+        [Theory]
+        [InlineData(1, 800, 0)]
+        [InlineData(3, 0, 2)]
+        [InlineData(0, 402, 1)]
+        [InlineData(10, 500, 2)]
+        public void Test7(int fk, decimal pr, int id)  //Put
+        {
+            //Arrange
+
+            var ticket = new TicketPL { FlightForeignKey = fk, Price = pr };
+            if (id != 0)
+            {
+                ticket.Id = id;
+            }
+
+            serviceMock.Setup(serv => serv.GetFlightsFromDS()).Returns(flights);
+
+            //Act
+            Action act = () => serviceMock.Object.PutTicket(ticket);
+
+            //Assert
+            Assert.Throws<BL.Infrastructure.ValidationException>(act);
+        }
     }
 }
 
