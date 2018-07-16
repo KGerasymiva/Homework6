@@ -35,14 +35,13 @@ namespace PL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+           services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IServiceTicket, ServiceTicket>();
             services.AddTransient<IServicePlaneType, ServicePlaneType>();
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<IRepository<Entity>, Repository<Entity>>();
 
-            var connection = @"Data Source=localhost\sqlexpress;Initial Catalog=AirportDB;Integrated Security=True";
-            services.AddDbContext<AirportContext>(options => options.UseSqlServer(connection));
+            ConfigureDatabase(services);
 
             //services.AddDbContext<AirportContext>(opt => opt.UseInMemoryDatabase());
             services.AddRouting();
@@ -67,6 +66,12 @@ namespace PL
 
             app.UseMvc();
             SeedData.EnsurePopulated(app);
+        }
+
+        public virtual void ConfigureDatabase(IServiceCollection services)
+        {
+            var connection = @"Data Source=localhost\sqlexpress;Initial Catalog=AirportDB;Integrated Security=True";
+            services.AddDbContext<AirportContext>(options => options.UseSqlServer(connection));
         }
     }
 }

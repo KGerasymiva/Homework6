@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "ClassLibrary1\DTO.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{88B0DCEA-5CB2-4653-97D2-5718647E2F4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirporstTestProject", "AirporstTestProject\AirporstTestProject.csproj", "{F65DBDB8-61F0-4953-A656-E24A70EE2788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirporstTestProject", "AirporstTestProject\AirporstTestProject.csproj", "{F65DBDB8-61F0-4953-A656-E24A70EE2788}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTestProject", "IntegrationTestProject\IntegrationTestProject.csproj", "{745F9880-D62B-4C38-B092-4C119D7679E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{F65DBDB8-61F0-4953-A656-E24A70EE2788}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F65DBDB8-61F0-4953-A656-E24A70EE2788}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F65DBDB8-61F0-4953-A656-E24A70EE2788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{745F9880-D62B-4C38-B092-4C119D7679E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{745F9880-D62B-4C38-B092-4C119D7679E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{745F9880-D62B-4C38-B092-4C119D7679E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{745F9880-D62B-4C38-B092-4C119D7679E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
