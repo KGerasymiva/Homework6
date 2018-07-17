@@ -35,13 +35,11 @@ namespace PL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IServiceTicket, ServiceTicket>();
             services.AddTransient<IServicePlaneType, ServicePlaneType>();
             services.AddTransient<IMapper, Mapper>();
             services.AddTransient<IRepository<Entity>, Repository<Entity>>();
-
-            ConfigureDatabase(services);
 
             //services.AddDbContext<AirportContext>(opt => opt.UseInMemoryDatabase());
             services.AddRouting();
@@ -54,6 +52,8 @@ namespace PL
 
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
+
+            ConfigureDatabase(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

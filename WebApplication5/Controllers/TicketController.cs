@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BL;
 using BL.Service;
+using DAL.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using DTO;
 using Newtonsoft.Json;
@@ -18,6 +19,7 @@ namespace PL.Controllers
         public TicketController(IServiceTicket serviceTicket)
         {
             this._serviceTicket = serviceTicket;
+
         }
 
         // GET: api/Ticket
