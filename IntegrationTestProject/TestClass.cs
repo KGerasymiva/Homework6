@@ -13,13 +13,15 @@ namespace IntegrationTestProject
         public TestClass()
         {
             _server = new TestServer(WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>().UseDefaultServiceProvider(options =>
+                .UseStartup<TestStartup>().UseDefaultServiceProvider(options =>
                     options.ValidateScopes = false));
         }
 
+        //Create tests here
         [Fact]
         public void Test1()
         {
+            
 
         }
     }

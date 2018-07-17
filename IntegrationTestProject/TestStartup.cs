@@ -21,15 +21,11 @@ namespace IntegrationTestProject
 
         public override void ConfigureDatabase(IServiceCollection services)
         {
-            var connection = @"Data Source=localhost\sqlexpress;Initial Catalog=AirportTestDB;Integrated Security=True";
+            var connection = @"Data Source=localhost\sqlexpress;Initial Catalog=AirporTestDB;Integrated Security=True";
             services.AddDbContext<AirportContext>(options => options.UseSqlServer(connection));
+
+            //services.AddDbContext<AirportContext>(opt => opt.UseInMemoryDatabase());
         }
    
-
-        [Fact]
-        public void Test1()
-        {
-
-        }
     }
 }
